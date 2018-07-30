@@ -99,3 +99,13 @@ def get_non_decr_subranges(start, stop, input, output = []):
             output.pop(0)
 
         return list(output)
+
+def sum_subranges(subranges, sum = 0):
+    '''
+    Calculates the number of subranges from a list containing
+    subrange groups.
+    '''
+    for subrange in subranges:
+        diff = subrange[1] - subrange[0]
+        sum += (diff * (diff + 1)) / 2
+    return sum

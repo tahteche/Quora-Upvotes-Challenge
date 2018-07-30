@@ -28,3 +28,14 @@ class TestUpvotes(unittest.TestCase):
 				output)
 			result.append(output)
 		self.assertEqual(result, expected)
+
+	def test_sum_subranges(self):
+		subranges = [[0, 2], [6, 10]]
+		previous_sum =2
+
+		# Sum of the subranges in {subranges} is 13. Adding the 
+		# previous_sum should give an expected total of 15
+		expected = 15
+
+		sum_of_subs = upvotes.sum_subranges(subranges, previous_sum)
+		self.assertEqual(sum_of_subs, expected)

@@ -1,3 +1,8 @@
+'''
+Calculates (non-decreasing subranges) - (non-increasing subranges)
+of a given window within a list of Quora upvotes per day 
+'''
+
 def get_non_incr_subranges(start, stop, input, output = []):
     """
     Find non-increasing subrange groups in a window.
@@ -109,3 +114,28 @@ def sum_subranges(subranges, sum = 0):
         diff = subrange[1] - subrange[0]
         sum += (diff * (diff + 1)) / 2
     return sum
+
+N, K = raw_input().split()
+N = int(N)
+K = int(K)
+UPVOTES = raw_input().split()
+
+# nds = non-decreasing subranges of a given window
+nds = []
+
+# nis = non-increasing subranges of a given window
+nis = []
+
+for start in xrange(0, N - K + 1):
+    stop = start + K
+
+    # nds = non-decreasing subranges of a given window
+    nds = get_non_decr_subranges(start, stop, UPVOTES, nds)
+    
+    # nis = non-increasing subranges of a given window
+    nis = get_non_incr_subranges(start, stop, UPVOTES, nis)
+
+    sum_nds = sum_subranges(nds)
+    sum_nis = sum_subranges(nis)
+
+    print sum_nds - sum_nis

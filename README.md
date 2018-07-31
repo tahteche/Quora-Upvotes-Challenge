@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/tahteche/Quora-Upvotes-Challenge.svg?branch=master)](https://travis-ci.org/tahteche/Quora-Upvotes-Challenge)
 # Quora-Upvotes-Challenge
 Solution to Quora's Upvotes Challenge: https://www.quora.com/about/challenges#upvotes
 

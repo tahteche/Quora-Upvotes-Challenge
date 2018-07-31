@@ -16,10 +16,16 @@ class TestUpvotes(unittest.TestCase):
 		n = 10
 		k = 3
 		output = []
-		for start in xrange(0, n-k+1):
+		start = 0
+		stop = start + k
+		output, sum = upvotes.get_non_incr_subranges(start, stop,
+				items, output)
+		self.assertEqual(output, expected[start])
+
+		for start in xrange(1, n-k+1):
 			stop = start + k
-			output = upvotes.get_non_incr_subranges(start, stop, items,
-				output)
+			output, sum = upvotes.get_non_incr_subranges(start, stop,
+				items, output, sum)
 			self.assertEqual(output, expected[start])
 
 	def test_get_non_decr_subranges(self):
@@ -37,10 +43,15 @@ class TestUpvotes(unittest.TestCase):
 		n = 10
 		k = 3
 		output = []
+		start = 0
+		stop = start + k
+		output, sum = upvotes.get_non_decr_subranges(start, stop,
+			items, output)
+
 		for start in xrange(0, n-k+1):
 			stop = start + k
-			output = upvotes.get_non_decr_subranges(start, stop, items,
-				output)
+			output, sum = upvotes.get_non_decr_subranges(start, stop,
+				items, output, sum)
 			self.assertEqual(output, expected[start])
 
 	def test_sum_subranges(self):

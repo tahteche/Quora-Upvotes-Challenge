@@ -10,14 +10,13 @@ def get_non_incr_subranges(start, stop, input, output = []):
     subrange group.
     """
 
-    output = list(output)
     # If this is the first window or the previous window had no
     # non-increasing subrange then do a fresh search for
     # non-increasing subranges 
     if output == []:
         first = last = start
         for index in xrange(start, stop):
-            if input[index] <= input[first]:
+            if input[index] <= input[last]:
                 last = index
             elif last != first:
                 output.append([first, last])
@@ -26,7 +25,7 @@ def get_non_incr_subranges(start, stop, input, output = []):
                 first = last = index
         if last != first:
             output.append([first, last])
-        return list(output)
+        return output
     
     # If the previous window had non-increasing subranges use them to
     # derive the subranges for the present window
@@ -52,7 +51,7 @@ def get_non_incr_subranges(start, stop, input, output = []):
         if output[0][1] - output[0][0] <= 0:
             output.pop(0)
 
-        return list(output)
+        return output
 
 def get_non_decr_subranges(start, stop, input, output = []):
     """
@@ -61,14 +60,13 @@ def get_non_decr_subranges(start, stop, input, output = []):
     subrange group.
     """
 
-    output = list(output)
     # If this is the first window or the previous window had no
     # non-decreasing subrange then do a fresh search for
     # non-decreasing subranges 
     if output == []:
         first = last = start
         for index in xrange(start, stop):
-            if input[index] >= input[first]:
+            if input[index] >= input[last]:
                 last = index
             elif last != first:
                 output.append([first, last])
@@ -77,7 +75,7 @@ def get_non_decr_subranges(start, stop, input, output = []):
                 first = last = index
         if last != first:
             output.append([first, last])
-        return list(output)
+        return output
     
     # If the previous window had non-decreasing subranges use them to
     # derive the subranges for the present window
@@ -103,7 +101,7 @@ def get_non_decr_subranges(start, stop, input, output = []):
         if output[0][1] - output[0][0] <= 0:
             output.pop(0)
 
-        return list(output)
+        return output
 
 def sum_subranges(subranges, sum = 0):
     '''
@@ -111,31 +109,35 @@ def sum_subranges(subranges, sum = 0):
     subrange groups.
     '''
     for subrange in subranges:
+        if len(subrange) == 0:
+            continue
         diff = subrange[1] - subrange[0]
         sum += (diff * (diff + 1)) / 2
     return sum
 
-N, K = raw_input().split()
-N = int(N)
-K = int(K)
-UPVOTES = raw_input().split()
-
-# nds = non-decreasing subranges of a given window
-nds = []
-
-# nis = non-increasing subranges of a given window
-nis = []
-
-for start in xrange(0, N - K + 1):
-    stop = start + K
+if __name__ == "__main__":
+    N, K = raw_input().split()
+    N = int(N)
+    K = int(K)
+    UPVOTES = raw_input().split()
+    UPVOTES = [int(upvote) for upvote in UPVOTES]
 
     # nds = non-decreasing subranges of a given window
-    nds = get_non_decr_subranges(start, stop, UPVOTES, nds)
-    
+    nds = []
+
     # nis = non-increasing subranges of a given window
-    nis = get_non_incr_subranges(start, stop, UPVOTES, nis)
+    nis = []
 
-    sum_nds = sum_subranges(nds)
-    sum_nis = sum_subranges(nis)
+    for start in xrange(0, ((N - K) + 1)):
+        stop = start + K
 
-    print sum_nds - sum_nis
+        # nds = non-decreasing subranges of a given window
+        nds = get_non_decr_subranges(start, stop, UPVOTES, nds)
+        
+        # nis = non-increasing subranges of a given window
+        nis = get_non_incr_subranges(start, stop, UPVOTES, nis)
+
+        sum_nds = sum_subranges(nds)
+        sum_nis = sum_subranges(nis)
+
+        print sum_nds - sum_nis
